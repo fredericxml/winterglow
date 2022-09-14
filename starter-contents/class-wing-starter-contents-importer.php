@@ -10,13 +10,15 @@
 
 defined( 'ABSPATH' ) || exit;
 
+if ( ! function_exists( 'wp_generate_attachment_metadata' ) ) {
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+}
+
 class Wing_Starter_Contents_Importer {
   /**
-   * Constructor
-   *
-   * @return void
+   * Runner
    */
-  public function __construct() {
+  public static function run() {
     self::import_pages();
     self::import_nav_settings();
     self::import_nav_menu();
@@ -506,6 +508,9 @@ class Wing_Starter_Contents_Importer {
       'guid' => $upload['url'],
       'post_mime_type' => $upload['type']
     ], $upload['file'] );
+
+    // Generate sub-sizes of the image.
+    wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
 
     if ( $get_url ) {
       return array(

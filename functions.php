@@ -8,10 +8,6 @@ define( 'WING_THEME_VERSION', wp_get_theme()->get( 'Version' ) );
 
 
 
-require_once WING_THEME_PATH . 'inc/functions.php';
-
-
-
 // Enqueue scripts on front-end.
 function wing_enqueue_theme_scripts() {
   // Register scripts
@@ -68,6 +64,7 @@ add_action( 'admin_enqueue_scripts', 'wing_enqueue_admin_scripts' );
 // Add theme support.
 function wing_theme_setup() {
   add_theme_support( 'post-thumbnails' );
+  add_image_size( 'wing_small', 28, 28 );
   
   add_theme_support( 'custom-logo', [
     'height'               => 100,
@@ -79,6 +76,12 @@ function wing_theme_setup() {
   ]);
 }
 add_action( 'after_setup_theme', 'wing_theme_setup' );
+
+// Load other files.
+function wing_file_loader() {
+  require_once WING_THEME_PATH . 'inc/functions.php';
+}
+add_action( 'after_setup_theme', 'wing_file_loader', 15 );
 
 // Register nav menu.
 function wing_register_nav_menu() {

@@ -24,16 +24,21 @@ get_header(); ?>
 
           <?php
             while ( $query->have_posts() ) : $query->the_post();
-            
-            $style = esc_attr('
-              background-color:' . wing_get( $section['wing_banner']['background_color'] ) . ';
-              background-image: url(' . get_the_post_thumbnail_url( $query->ID ) . ');
-            ');
+
+            $style = array(
+              'background-color' => wing_get( $section['wing_banner']['background_color'] )
+            );
+
+            if ( Wing_Theme_Guard::is_safe() ) {
+              $style['background-image'] = 'url(' . esc_url( get_the_post_thumbnail_url( $query->ID ) ) . ')';
+            } else {
+              $style['background-image'] = 'url(' . esc_url( get_the_post_thumbnail_url( $query->ID, $image_size ) ) . ')';
+            }
 
             $meta_data = get_post_meta( $post->ID, 'wing_section_meta' )[0][0];
           ?>
 
-            <li class="splide__slide" style="<?php echo $style; ?>">
+            <li class="splide__slide" style="<?php wing_generate_style_string( $style ); ?>">
               <div class="overlay"></div>
               <div class="container">
                 <p class="banner-subtitle"><?php echo esc_html( $meta_data['subtitle'] ); ?></p>
@@ -60,18 +65,18 @@ get_header(); ?>
 
   if ( wing_section_is_active( $theme_settings, 'wing_about_us' ) ) :
   
-  $style = esc_attr('
-    padding-top:' . wing_get( $section['wing_about_us']['padding'] ) . 'px;
-    padding-bottom:' . wing_get( $section['wing_about_us']['padding'] ) . 'px;
-    background-color:' . wing_get( $section['wing_about_us']['background_color'] ) . ';
-    background-image: url(' . esc_url( wing_get( $section['wing_about_us']['background_image--url'] ) ) . ');
-  ');
+  $style = array(
+    'padding-top'      => wing_get( $section['wing_about_us']['padding'] ) . 'px',
+    'padding-bottom'   => wing_get( $section['wing_about_us']['padding'] ) . 'px',
+    'background-color' => wing_get( $section['wing_about_us']['background_color'] ),
+    'background-image' => 'url(' . esc_url( wing_get( $section['wing_about_us']['background_image--url'] ) ) . ')'
+  );
 ?>
-  <section id="wing-about-us" class="section" style="<?php echo $style; ?>">
+  <section id="wing-about-us" class="section" style="<?php wing_generate_style_string( $style ); ?>">
     <div class="container text-center text-lg-start">
       <div class="row align-items-center">
         <div class="col-lg">
-          <?php echo wp_get_attachment_image( wing_get( $section['wing_about_us']['image--id'] ), 'medium_large', false, [ 'class' => 'about-us-image' ] ); ?>
+          <?php echo wp_get_attachment_image( wing_get( $section['wing_about_us']['image--id'] ), $image_size, false, [ 'class' => 'about-us-image' ] ); ?>
         </div>
         <div class="col-lg">
           <p class="section-subtitle"><?php echo esc_html( wing_get( $section['wing_about_us']['subtitle'] ) ); ?></p>
@@ -91,17 +96,17 @@ get_header(); ?>
   
   $query = new WP_Query( [ 'post_type' => 'wing_service', 'orderby' => 'ID' ] );
   
-  $style = esc_attr('
-    padding-top:' . wing_get( $section['wing_service']['padding'] ) . 'px;
-    padding-bottom:' . wing_get( $section['wing_service']['padding'] ) . 'px;
-    background-color:' . wing_get( $section['wing_service']['background_color'] ) . ';
-    background-image: url(' . esc_url( wing_get( $section['wing_service']['background_image--url'] ) ) . ');
-  ');
+  $style = array(
+    'padding-top'      => wing_get( $section['wing_service']['padding'] ) . 'px',
+    'padding-bottom'   => wing_get( $section['wing_service']['padding'] ) . 'px',
+    'background-color' => wing_get( $section['wing_service']['background_color'] ),
+    'background-image' => 'url(' . esc_url( wing_get( $section['wing_service']['background_image--url'] ) ) . ')'
+  );
 
   $n_columns = wing_get( $section['wing_service']['n_columns'], '' ) === '' ? 3 : $section['wing_service']['n_columns'];
   $excess    = $query->found_posts % $n_columns;
 ?>
-  <section id="wing-service" class="section" style="<?php echo $style; ?>">
+  <section id="wing-service" class="section" style="<?php wing_generate_style_string( $style ); ?>">
     <div class="container text-center">
       <p class="section-subtitle"><?php echo esc_html( wing_get( $section['wing_service']['subtitle'] ) ); ?></p>
       <h2 class="section-title"><?php echo esc_html( wing_get( $section['wing_service']['title'] ) ); ?></h2>
@@ -119,7 +124,7 @@ get_header(); ?>
             <div class="service-card">
               <?php
                 if ( has_post_thumbnail() ) :
-                  the_post_thumbnail( 'medium_large', [ 'class' => 'service-icon' ] );
+                  the_post_thumbnail( $image_size, [ 'class' => 'service-icon' ] );
               ?>
               <?php else : ?>
                 <i class="service-icon <?php echo esc_attr( $meta_data['fontawesome_icon_class'] ); ?>"></i>
@@ -145,17 +150,17 @@ get_header(); ?>
   
   $query = new WP_Query( [ 'post_type' => 'wing_fact', 'orderby' => 'ID' ] );
   
-  $style = esc_attr('
-    padding-top:' . wing_get( $section['wing_fact']['padding'] ) . 'px;
-    padding-bottom:' . wing_get( $section['wing_fact']['padding'] ) . 'px;
-    background-color:' . wing_get( $section['wing_fact']['background_color'] ) . ';
-    background-image: url(' . esc_url( wing_get( $section['wing_fact']['background_image--url'] ) ) . ');
-  ');
+  $style = array(
+    'padding-top'      => wing_get( $section['wing_fact']['padding'] ) . 'px',
+    'padding-bottom'   => wing_get( $section['wing_fact']['padding'] ) . 'px',
+    'background-color' => wing_get( $section['wing_fact']['background_color'] ),
+    'background-image' => 'url(' . esc_url( wing_get( $section['wing_fact']['background_image--url'] ) ) . ')'
+  );
 
   $n_columns = wing_get( $section['wing_fact']['n_columns'], '' ) === '' ? 4 : $section['wing_fact']['n_columns'];
   $excess    = $query->found_posts % $n_columns;
 ?>
-  <section id="wing-fact" class="section" style="<?php echo $style; ?>">
+  <section id="wing-fact" class="section" style="<?php wing_generate_style_string( $style ); ?>">
     <div class="container text-center">
       <p class="section-subtitle"><?php echo esc_html( wing_get( $section['wing_fact']['subtitle'] ) ); ?></p>
       <h2 class="section-title"><?php echo esc_html( wing_get( $section['wing_fact']['title'] ) ); ?></h2>
@@ -173,7 +178,7 @@ get_header(); ?>
             <div class="fact-card">
               <?php
                 if ( has_post_thumbnail() ) :
-                  the_post_thumbnail( 'medium_large', [ 'class' => 'fact-icon' ] );
+                  the_post_thumbnail( $image_size, [ 'class' => 'fact-icon' ] );
               ?>
               <?php else : ?>
                 <i class="fact-icon <?php echo esc_attr( $meta_data['fontawesome_icon_class'] ); ?>"></i>
@@ -199,17 +204,17 @@ get_header(); ?>
   
   $query = new WP_Query( [ 'post_type' => 'wing_product', 'orderby' => 'ID' ] );
   
-  $style = esc_attr('
-    padding-top:' . wing_get( $section['wing_product']['padding'] ) . 'px;
-    padding-bottom:' . wing_get( $section['wing_product']['padding'] ) . 'px;
-    background-color:' . wing_get( $section['wing_product']['background_color'] ) . ';
-    background-image: url(' . esc_url( wing_get( $section['wing_product']['background_image--url'] ) ) . ');
-  ');
+  $style = array(
+    'padding-top'      => wing_get( $section['wing_product']['padding'] ) . 'px',
+    'padding-bottom'   => wing_get( $section['wing_product']['padding'] ) . 'px',
+    'background-color' => wing_get( $section['wing_product']['background_color'] ),
+    'background-image' => 'url(' . esc_url( wing_get( $section['wing_product']['background_image--url'] ) ) . ')'
+  );
 
   $n_columns = wing_get( $section['wing_product']['n_columns'], '' ) === '' ? 3 : $section['wing_product']['n_columns'];
   $excess    = $query->found_posts % $n_columns;
 ?>
-  <section id="wing-product" class="section" style="<?php echo $style; ?>">
+  <section id="wing-product" class="section" style="<?php wing_generate_style_string( $style ); ?>">
     <div class="container text-center">
       <p class="section-subtitle"><?php echo esc_html( wing_get( $section['wing_product']['subtitle'] ) ); ?></p>
       <h2 class="section-title"><?php echo esc_html( wing_get( $section['wing_product']['title'] ) ); ?></h2>
@@ -225,7 +230,7 @@ get_header(); ?>
         
           <div class="g-col-12 g-col-md-6 g-col-lg-<?php echo ( 12 / $n_columns ); ?>">
             <div class="product-card">
-              <?php the_post_thumbnail( 'medium_large', [ 'class' => 'product-image' ] ); ?>
+              <?php the_post_thumbnail( $image_size, [ 'class' => 'product-image' ] ); ?>
       
               <h3 class="product-name"><?php the_title(); ?></h3>
               <p class="product-description"><?php echo get_the_content(); ?></p>
@@ -253,16 +258,16 @@ get_header(); ?>
   
   $query = new WP_Query( [ 'post_type' => 'wing_testimonial', 'orderby' => 'ID' ] );
   
-  $style = esc_attr('
-    padding-top:' . wing_get( $section['wing_testimonial']['padding'] ) . 'px;
-    padding-bottom:' . wing_get( $section['wing_testimonial']['padding'] ) . 'px;
-    background-color:' . wing_get( $section['wing_testimonial']['background_color'] ) . ';
-    background-image: url(' . esc_url( wing_get( $section['wing_testimonial']['background_image--url'] ) ) . ');
-  ');
+  $style = array(
+    'padding-top'      => wing_get( $section['wing_testimonial']['padding'] ) . 'px',
+    'padding-bottom'   => wing_get( $section['wing_testimonial']['padding'] ) . 'px',
+    'background-color' => wing_get( $section['wing_testimonial']['background_color'] ),
+    'background-image' => 'url(' . esc_url( wing_get( $section['wing_testimonial']['background_image--url'] ) ) . ')'
+  );
 
   $n_columns = wing_get( $section['wing_testimonial']['n_columns'], '' ) === '' ? 3 : $section['wing_testimonial']['n_columns'];
 ?>
-  <section id="wing-testimonial" class="section" style="<?php echo $style; ?>">
+  <section id="wing-testimonial" class="section" style="<?php wing_generate_style_string( $style ); ?>">
     <div class="container text-center">
       <p class="section-subtitle"><?php echo esc_html( wing_get( $section['wing_testimonial']['subtitle'] ) ); ?></p>
       <h2 class="section-title"><?php echo esc_html( wing_get( $section['wing_testimonial']['title'] ) ); ?></h2>
@@ -280,7 +285,7 @@ get_header(); ?>
 
               <li class="splide__slide">
                 <div class="testimonial-card">
-                  <?php the_post_thumbnail( 'medium_large', [ 'class' => 'testimonial-photo' ] ); ?>
+                  <?php the_post_thumbnail( $image_size, [ 'class' => 'testimonial-photo' ] ); ?>
           
                   <p class="testimonial-quote"><?php echo get_the_content(); ?></p>
                   <h3 class="testimonial-name"><?php the_title(); ?></h3>
@@ -305,17 +310,17 @@ get_header(); ?>
   
   $query = new WP_Query( [ 'post_type' => 'wing_team', 'orderby' => 'ID' ] );
   
-  $style = esc_attr('
-    padding-top:' . wing_get( $section['wing_team']['padding'] ) . 'px;
-    padding-bottom:' . wing_get( $section['wing_team']['padding'] ) . 'px;
-    background-color:' . wing_get( $section['wing_team']['background_color'] ) . ';
-    background-image: url(' . esc_url( wing_get( $section['wing_team']['background_image--url'] ) ) . ');
-  ');
+  $style = array(
+    'padding-top'      => wing_get( $section['wing_team']['padding'] ) . 'px',
+    'padding-bottom'   => wing_get( $section['wing_team']['padding'] ) . 'px',
+    'background-color' => wing_get( $section['wing_team']['background_color'] ),
+    'background-image' => 'url(' . esc_url( wing_get( $section['wing_team']['background_image--url'] ) ) . ')'
+  );
 
   $n_columns = wing_get( $section['wing_team']['n_columns'], '' ) === '' ? 3 : $section['wing_team']['n_columns'];
   $excess    = $query->found_posts % $n_columns;
 ?>
-  <section id="wing-team" class="section" style="<?php echo $style; ?>">
+  <section id="wing-team" class="section" style="<?php wing_generate_style_string( $style ); ?>">
     <div class="container text-center">
       <p class="section-subtitle"><?php echo esc_html( wing_get( $section['wing_team']['subtitle'] ) ); ?></p>
       <h2 class="section-title"><?php echo esc_html( wing_get( $section['wing_team']['title'] ) ); ?></h2>
@@ -331,7 +336,7 @@ get_header(); ?>
 
           <div class="g-col-12 g-col-md-6 g-col-lg-<?php echo ( 12 / $n_columns ); ?>">
             <div class="team-card">
-              <?php the_post_thumbnail( 'medium_large', [ 'class' => 'team-photo' ] ); ?>
+              <?php the_post_thumbnail( $image_size, [ 'class' => 'team-photo' ] ); ?>
       
               <h3 class="team-name"><?php the_title(); ?></h3>
               <p class="team-position"><?php echo esc_html( $meta_data['position'] ); ?></p>
@@ -354,17 +359,17 @@ get_header(); ?>
   
   $query = new WP_Query( [ 'post_type' => 'wing_client', 'orderby' => 'ID' ] );
   
-  $style = esc_attr('
-    padding-top:' . wing_get( $section['wing_client']['padding'] ) . 'px;
-    padding-bottom:' . wing_get( $section['wing_client']['padding'] ) . 'px;
-    background-color:' . wing_get( $section['wing_client']['background_color'] ) . ';
-    background-image: url(' . esc_url( wing_get( $section['wing_client']['background_image--url'] ) ) . ');
-  ');
+  $style = array(
+    'padding-top'      => wing_get( $section['wing_client']['padding'] ) . 'px',
+    'padding-bottom'   => wing_get( $section['wing_client']['padding'] ) . 'px',
+    'background-color' => wing_get( $section['wing_client']['background_color'] ),
+    'background-image' => 'url(' . esc_url( wing_get( $section['wing_client']['background_image--url'] ) ) . ')'
+  );
 
   $n_columns = wing_get( $section['wing_client']['n_columns'], '' ) === '' ? 4 : $section['wing_client']['n_columns'];
   $excess    = $query->found_posts % $n_columns;
 ?>
-  <section id="wing-client" class="section" style="<?php echo $style; ?>">
+  <section id="wing-client" class="section" style="<?php wing_generate_style_string( $style ); ?>">
     <div class="container text-center">
       <p class="section-subtitle"><?php echo esc_html( wing_get( $section['wing_client']['subtitle'] ) ); ?></p>
       <h2 class="section-title"><?php echo esc_html( wing_get( $section['wing_client']['title'] ) ); ?></h2>
@@ -382,7 +387,7 @@ get_header(); ?>
             <a href="<?php echo esc_url( $meta_data['link'] ); ?>" class="client-card">
               <h3 class="visually-hidden"><?php the_title(); ?></h3>
 
-              <?php the_post_thumbnail( 'medium_large', [ 'class' => 'client-logo' ] ); ?>
+              <?php the_post_thumbnail( $image_size, [ 'class' => 'client-logo' ] ); ?>
             </a>
           </div>
 
@@ -401,14 +406,14 @@ get_header(); ?>
   
   $query = new WP_Query( [ 'post_type' => 'wing_faq', 'orderby' => 'ID' ] );
   
-  $style = esc_attr('
-    padding-top:' . wing_get( $section['wing_faq']['padding'] ) . 'px;
-    padding-bottom:' . wing_get( $section['wing_faq']['padding'] ) . 'px;
-    background-color:' . wing_get( $section['wing_faq']['background_color'] ) . ';
-    background-image: url(' . esc_url( wing_get( $section['wing_faq']['background_image--url'] ) ) . ');
-  ');
+  $style = array(
+    'padding-top'      => wing_get( $section['wing_faq']['padding'] ) . 'px',
+    'padding-bottom'   => wing_get( $section['wing_faq']['padding'] ) . 'px',
+    'background-color' => wing_get( $section['wing_faq']['background_color'] ),
+    'background-image' => 'url(' . esc_url( wing_get( $section['wing_faq']['background_image--url'] ) ) . ')'
+  );
 ?>
-  <section id="wing-faq" class="section" style="<?php echo $style; ?>">
+  <section id="wing-faq" class="section" style="<?php wing_generate_style_string( $style ); ?>">
     <div class="container text-center">
       <p class="section-subtitle"><?php echo esc_html( wing_get( $section['wing_faq']['subtitle'] ) ); ?></p>
       <h2 class="section-title"><?php echo esc_html( wing_get( $section['wing_faq']['title'] ) ); ?></h2>
@@ -447,14 +452,14 @@ get_header(); ?>
   
   $query = new WP_Query( [ 'post_type' => 'wing_contact', 'orderby' => 'ID' ] );
   
-  $style = esc_attr('
-    padding-top:' . wing_get( $section['wing_contact']['padding'] ) . 'px;
-    padding-bottom:' . wing_get( $section['wing_contact']['padding'] ) . 'px;
-    background-color:' . wing_get( $section['wing_contact']['background_color'] ) . ';
-  ');
+  $style = array(
+    'padding-top'      => wing_get( $section['wing_contact']['padding'] ) . 'px',
+    'padding-bottom'   => wing_get( $section['wing_contact']['padding'] ) . 'px',
+    'background-color' => wing_get( $section['wing_contact']['background_color'] )
+  );
 ?>
-  <section id="wing-contact" class="section" style="<?php echo $style; ?>">
-    <div class="overlay" style="background-image: url(<?php echo esc_url( wing_get( $section['wing_contact']['background_image--url'] ) ); ?>);"></div>
+  <section id="wing-contact" class="section" style="<?php wing_generate_style_string( $style ); ?>">
+    <div class="overlay" style="<?php wing_generate_style_string( [ 'background-image' => 'url(' . wp_get_attachment_image_src( wing_get( $section['wing_contact']['background_image--id'] ), $image_size )[0] . ')' ] ); ?>"></div>
     <div class="container text-center">
       <div class="row">
         <div class="col-md text-md-end d-md-flex align-items-end justify-content-end mb-4 mb-md-0">

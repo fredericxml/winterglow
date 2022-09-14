@@ -13,27 +13,37 @@ defined( 'ABSPATH' ) || exit;
 class Wing_Starter_Contents_Controller {
   /**
    * Constructor
-   *
-   * @return void
    */
   public function __construct() {
-    self::import_contents();
+    self::do_first_contents_import();
+    self::starter_contents_import_handler();
     // self::contents_cleaner();
   }
 
   /**
-   * Only do the importing when the theme installation has never done. After
-   * the process, do redirect to avoid this function being called twice.
+   * Only do the importing when the theme has been activated and
+   * this installation has never done any import. After the process,
+   * do redirect to avoid this function being called twice.
    *
    * @return void
    */
-  private static function import_contents() {
+  private static function do_first_contents_import() {
     if ( ! get_option( 'wing_has_imported_starter_contents' ) ) {
-      // Run the importer.
-      new Wing_Starter_Contents_Importer();
-
+      Wing_Starter_Contents_Importer::run();
       update_option( 'wing_has_imported_starter_contents', true );
-      wp_redirect( admin_url( 'admin.php?page=wing-theme-core' ) );
+      wp_redirect( admin_url( 'admin.php?page=wing-license-management' ) );
+    }
+  }
+  
+  /**
+   * Starter contents import handler. This method handles
+   * the submission from contents importer form page.
+   *
+   * @return void
+   */
+  private static function starter_contents_import_handler() {
+    if ( isset( $_POST['wing_nonce'] ) && wp_verify_nonce( $_POST['wing_nonce'], 'import_starter_contents' ) ) {
+      Wing_Starter_Contents_Importer::run();
     }
   }
 

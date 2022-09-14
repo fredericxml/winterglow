@@ -43,3 +43,23 @@ function wing_get( &$value, $default = null ) {
 function wing_img_url( $filename ) {
   echo WING_THEME_URL . 'assets/images/' . $filename;
 }
+
+/**
+ * Echo escaped CSS style string.
+ *
+ * @param  array $style_array
+ * @return void
+ */
+function wing_generate_style_string( $style_array ) {
+  $style_string = '';
+  $empty_values = [ 'px', 'url()' ];
+
+  foreach ( $style_array as $key => $value ) {
+    if ( empty( $value ) || in_array( $value, $empty_values ) ) {
+      continue;
+    }
+    $style_string .= $key . ':' . $value . ';';
+  }
+  
+  echo esc_attr( $style_string );
+}

@@ -97,7 +97,6 @@
           <img
             src="<?php echo esc_url( wing_get( $settings['image--url'] ) ); ?>"
             alt="<?php echo esc_attr( wing_get( $settings['image--alt'] ) ); ?>"
-            srcset="<?php echo wp_get_attachment_image_srcset( $settings['image--id'] ); ?>"
             class="smartcat-image regular-text"
             loading="lazy"
           >
@@ -197,7 +196,6 @@
           <img
             src="<?php echo esc_url( wing_get( $settings['background_image--url'] ) ); ?>"
             alt="<?php echo esc_attr( wing_get( $settings['background_image--alt'] ) ); ?>"
-            srcset="<?php echo wp_get_attachment_image_srcset( $settings['background_image--id'] ); ?>"
             class="smartcat-image regular-text"
             loading="lazy"
           >

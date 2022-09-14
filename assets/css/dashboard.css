@@ -32,6 +32,18 @@
 }
 
 /*==================================================
+ * License activation page
+ *==================================================*/
+.wing.license-page .feedback-link {
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.wing.license-page .license-key-label {
+  width: 100px;
+}
+
+/*==================================================
  * Table form for metabox section
  *==================================================*/
 .wing.metabox {

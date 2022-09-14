@@ -14,10 +14,18 @@
     wp_head();
 
     // Make the variables accessible across all the template files.
-    global $section, $theme_settings;
+    global $section, $theme_settings, $image_size;
     
     $section = get_option( 'wing_section_settings', [] );
     $theme_settings = get_option( 'wing_theme_settings', [] );
+    $image_size = 'medium_large';
+    
+    if ( ! Wing_Theme_Guard::is_safe() ) {
+      $image_size = 'wing_small';
+      $theme_settings['wa_chat_button']['show_button'] = true;
+      $theme_settings['wa_chat_button']['size']        = '';
+      $theme_settings['wa_chat_button']['position']    = '';
+    }
   ?>
 </head>
 <body <?php body_class( 'wing' ); ?>>

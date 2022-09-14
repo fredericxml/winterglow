@@ -99,20 +99,21 @@
   };
 
   const toTopButton = document.getElementsByClassName('to-top-btn')[0];
-
-  toTopButton.addEventListener('click', scrollToTop);
-
-  ['load', 'scroll'].forEach(function(event) {
-    window.addEventListener(event, function() {
-      if (window.scrollY > 200) {
-        toTopButton.classList.add('show-btn');
-        toTopButton.style.right = 25 + 'px';
-      } else {
-        toTopButton.classList.remove('show-btn');
-        toTopButton.style.right = `${ -(toTopButton.offsetWidth + 25) }px`;
-      }
+  if (toTopButton) {
+    toTopButton.addEventListener('click', scrollToTop);
+  
+    ['load', 'scroll'].forEach(function(event) {
+      window.addEventListener(event, function() {
+        if (window.scrollY > 200) {
+          toTopButton.classList.add('show-btn');
+          toTopButton.style.right = 25 + 'px';
+        } else {
+          toTopButton.classList.remove('show-btn');
+          toTopButton.style.right = `${ -(toTopButton.offsetWidth + 25) }px`;
+        }
+      });
     });
-  });
+  }
 
   /**
    * Initialize slider for banner section.
