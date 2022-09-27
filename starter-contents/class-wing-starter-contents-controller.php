@@ -22,15 +22,15 @@ class Wing_Starter_Contents_Controller {
 
   /**
    * Only do the importing when the theme has been activated and
-   * this installation has never done any import. After the process,
-   * do redirect to avoid this function being called twice.
+   * this installation has never done any import. We need to update
+   * has_imported status first to avoid this function being called twice.
    *
    * @return void
    */
   private static function do_first_contents_import() {
     if ( ! get_option( 'wing_has_imported_starter_contents' ) ) {
-      Wing_Starter_Contents_Importer::run();
       update_option( 'wing_has_imported_starter_contents', true );
+      Wing_Starter_Contents_Importer::run();
       wp_redirect( admin_url( 'admin.php?page=wing-license-management' ) );
     }
   }

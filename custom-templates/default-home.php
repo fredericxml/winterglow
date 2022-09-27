@@ -15,7 +15,7 @@ get_header(); ?>
 
   if ( wing_section_is_active( $theme_settings, 'wing_banner' ) ) :
 
-  $query = new WP_Query( [ 'post_type' => 'wing_banner', 'orderby' => 'ID' ] );
+  $query = new WP_Query( [ 'post_type' => 'wing_banner', 'posts_per_page' => -1, 'orderby' => 'ID' ] );
 ?>
   <header id="wing-banner">
     <div id="banner-slider" class="splide" aria-label="Banner Slider">
@@ -94,7 +94,7 @@ get_header(); ?>
 
   if ( wing_section_is_active( $theme_settings, 'wing_service' ) ) :
   
-  $query = new WP_Query( [ 'post_type' => 'wing_service', 'orderby' => 'ID' ] );
+  $query = new WP_Query( [ 'post_type' => 'wing_service', 'posts_per_page' => -1, 'orderby' => 'ID' ] );
   
   $style = array(
     'padding-top'      => wing_get( $section['wing_service']['padding'] ) . 'px',
@@ -148,7 +148,7 @@ get_header(); ?>
 
   if ( wing_section_is_active( $theme_settings, 'wing_fact' ) ) :
   
-  $query = new WP_Query( [ 'post_type' => 'wing_fact', 'orderby' => 'ID' ] );
+  $query = new WP_Query( [ 'post_type' => 'wing_fact', 'posts_per_page' => -1, 'orderby' => 'ID' ] );
   
   $style = array(
     'padding-top'      => wing_get( $section['wing_fact']['padding'] ) . 'px',
@@ -202,7 +202,7 @@ get_header(); ?>
 
   if ( wing_section_is_active( $theme_settings, 'wing_product' ) ) :
   
-  $query = new WP_Query( [ 'post_type' => 'wing_product', 'orderby' => 'ID' ] );
+  $query = new WP_Query( [ 'post_type' => 'wing_product', 'posts_per_page' => -1, 'orderby' => 'ID' ] );
   
   $style = array(
     'padding-top'      => wing_get( $section['wing_product']['padding'] ) . 'px',
@@ -256,7 +256,7 @@ get_header(); ?>
 
   if ( wing_section_is_active( $theme_settings, 'wing_testimonial' ) ) :
   
-  $query = new WP_Query( [ 'post_type' => 'wing_testimonial', 'orderby' => 'ID' ] );
+  $query = new WP_Query( [ 'post_type' => 'wing_testimonial', 'posts_per_page' => -1, 'orderby' => 'ID' ] );
   
   $style = array(
     'padding-top'      => wing_get( $section['wing_testimonial']['padding'] ) . 'px',
@@ -308,7 +308,7 @@ get_header(); ?>
 
   if ( wing_section_is_active( $theme_settings, 'wing_team' ) ) :
   
-  $query = new WP_Query( [ 'post_type' => 'wing_team', 'orderby' => 'ID' ] );
+  $query = new WP_Query( [ 'post_type' => 'wing_team', 'posts_per_page' => -1, 'orderby' => 'ID' ] );
   
   $style = array(
     'padding-top'      => wing_get( $section['wing_team']['padding'] ) . 'px',
@@ -357,7 +357,7 @@ get_header(); ?>
 
   if ( wing_section_is_active( $theme_settings, 'wing_client' ) ) :
   
-  $query = new WP_Query( [ 'post_type' => 'wing_client', 'orderby' => 'ID' ] );
+  $query = new WP_Query( [ 'post_type' => 'wing_client', 'posts_per_page' => -1, 'orderby' => 'ID' ] );
   
   $style = array(
     'padding-top'      => wing_get( $section['wing_client']['padding'] ) . 'px',
@@ -404,7 +404,7 @@ get_header(); ?>
 
   if ( wing_section_is_active( $theme_settings, 'wing_faq' ) ) :
   
-  $query = new WP_Query( [ 'post_type' => 'wing_faq', 'orderby' => 'ID' ] );
+  $query = new WP_Query( [ 'post_type' => 'wing_faq', 'posts_per_page' => -1, 'orderby' => 'ID' ] );
   
   $style = array(
     'padding-top'      => wing_get( $section['wing_faq']['padding'] ) . 'px',
@@ -449,9 +449,7 @@ get_header(); ?>
   // Contact Us
 
   if ( wing_section_is_active( $theme_settings, 'wing_contact' ) ) :
-  
-  $query = new WP_Query( [ 'post_type' => 'wing_contact', 'orderby' => 'ID' ] );
-  
+   
   $style = array(
     'padding-top'      => wing_get( $section['wing_contact']['padding'] ) . 'px',
     'padding-bottom'   => wing_get( $section['wing_contact']['padding'] ) . 'px',
