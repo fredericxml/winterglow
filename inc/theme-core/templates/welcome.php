@@ -8,9 +8,11 @@
       <th><?php _e( 'Feedback', 'wing' ); ?></th>
       <td><a href="<?php echo esc_url( 'https://forms.gle/2mwLe2HBNQzM5dXA7' ); ?>" target="_blank">Link</a></td>
     </tr>
-    <tr>
-      <th><?php _e( 'Grup Telegram', 'wing' ); ?></th>
-      <td><a href="<?php echo esc_url( 'https://bit.ly/winterglow-nh' ); ?>" target="_blank">https://bit.ly/winterglow-nh</a></td>
-    </tr>
+    <?php if ( false ) : // Hide row ?>
+      <tr>
+        <th><?php _e( 'Grup Telegram', 'wing' ); ?></th>
+        <td><a href="<?php echo esc_url( 'https://bit.ly/winterglow-nh' ); ?>" target="_blank">https://bit.ly/winterglow-nh</a></td>
+      </tr>
+    <?php endif; ?>
   </table>
 </div>
